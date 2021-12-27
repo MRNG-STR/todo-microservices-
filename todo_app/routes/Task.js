@@ -211,4 +211,14 @@ router.get("/getusertrash", auth.verifytoken, async (req, res) => {
         res.send({ message: "Error in Fetching user" });
     }
 });
+router.get("/getuserexpired", auth.verifytoken, async (req, res) => {
+    try {
+        // request.user is getting fetched from Middleware after token authentication
+        console.log(req.user)
+        const user = await Task.find({ userid: req.user.id, status: 'expired' });
+        res.json(user);
+    } catch (e) {
+        res.send({ message: "Error in Fetching user" });
+    }
+});
 module.exports = router;
